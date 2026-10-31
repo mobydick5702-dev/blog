@@ -5,14 +5,14 @@ import type { SponsorConfig } from "../types/sponsorConfig";
 // 再把 siteConfig.pages.sponsor 改回 true。
 export const sponsorConfig: SponsorConfig = {
 	// 页面标题，如果留空则使用 i18n 中的翻译
-	title: "",
+	title: "投喂开发者",
 
 	// 页面描述文本，如果留空则使用 i18n 中的翻译
-	description: "",
+	description: "如果我的内容对你有帮助，欢迎通过以下方式打赏我，你的支持是我持续创作的动力ovo",
 
 	// 打赏用途说明
 	usage:
-		"您的打赏将用于服务器维护、内容创作和功能开发，帮助我持续提供优质内容。",
+		"您的打赏将用于服务器维护、内容创作和功能开发等，帮助我持续提供优质内容。",
 
 	// 是否显示打赏者列表
 	showSponsorsList: true,
@@ -42,7 +42,7 @@ export const sponsorConfig: SponsorConfig = {
 			qrCode: "/assets/images/sponsor/wechat.png",
 			link: "",
 			description: "使用 微信 扫码打赏",
-			enabled: false,
+			enabled: true,
 		},
 		{
 			name: "ko-fi",

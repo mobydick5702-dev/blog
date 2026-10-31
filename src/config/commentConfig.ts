@@ -4,7 +4,7 @@ import type { CommentConfig } from "../types/commentConfig";
 // 想开评论：把 type 改成 waline / twikoo / giscus 等，并按对应配置块填好自己的服务地址。
 export const commentConfig: CommentConfig = {
 	// 评论系统类型: none, twikoo, waline, giscus, disqus, artalk，默认为none，即不启用评论系统
-	type: "none",
+	type: "giscus",
 
 	//twikoo评论系统配置
 	twikoo: {
@@ -60,21 +60,21 @@ export const commentConfig: CommentConfig = {
 	// [CUSTOM] 原值指向主题作者的仓库，已换成占位值；去 https://giscus.app 生成配置后按它填写。
 	giscus: {
 		// 设置 Giscus 评论系统仓库
-		repo: "your-name/your-repo",
+		repo: "mobydick5702-dev/blog",
 		// 设置 Giscus 评论系统仓库ID
-		repoId: "",
+		repoId: "R_kgDOVdrQog",
 		// 设置 Giscus 评论系统分类
-		category: "General",
+		category: "Announcements",
 		// 获取 Giscus 评论系统分类ID
-		categoryId: "",
+		categoryId: "DIC_kwDOVdrQos4DKEj-",
 		// 获取 Giscus 评论系统映射方式
-		mapping: "title",
+		mapping: "pathname",
 		// 获取 Giscus 评论系统严格模式
-		strict: "0",
+		strict: "1",
 		// 获取 Giscus 评论系统反应功能
 		reactionsEnabled: "1",
 		// 获取 Giscus 评论系统元数据功能
-		emitMetadata: "1",
+		emitMetadata: "0",
 		// 获取 Giscus 评论系统输入位置
 		inputPosition: "top",
 		// 获取 Giscus 评论系统语言
