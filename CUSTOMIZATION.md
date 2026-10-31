@@ -311,7 +311,7 @@
 | `public/assets/js/highlight.min.js`、`marked.min.js` | 119 + 39 KB | 删除 | 代码高亮由 expressive-code 负责，这两个库在 `src` 里零引用 |
 | `public/favicon/` | 12 个图标 | 保留 `firefly-32/180/192`，删除 light/dark 全套与 `firefly-128` | 只保留实际使用的尺寸 |
 | `src/content/posts/` 的 14 篇主题示例文章 | `draft: true`（仍参与构建期内容解析，其配图全部被打包） | 移动到 `docs/legacy-posts/`（文件保留，移出 content 集合） | 彻底清除约 1 MB demo 配图；需要时移回即可重新参与构建 |
-| `public/_redirects` | 不存在 | 新增：6 个已关闭栏目的真 404 规则 | 原产物是 200 + meta-refresh 的软 404（P1-5） |
+| `public/_redirects` | 不存在 | **已撤销**：曾按 AUDIT P1-5 建议加入 6 条状态码 `404` 的规则，但 Cloudflare `_redirects` 不接受 404（只支持 200/301/302/303/307/308），`wrangler deploy` 会直接报 `Invalid _redirects configuration` 导致部署失败，文件已删除 | 这些关闭栏目本就有 `noindex` + `canonical→/404/`，站内也无链接指向，软 404 的实际影响很小，为它牺牲部署稳定性不值得 |
 | `public/og/home.jpg` | 不存在 | 新增 1200×630 站点分享图（由首页截图经 sharp 裁切压缩，76 KB） | 非文章页分享卡片不再用 192×192 的 logo（P1-6） |
 | `src/layouts/Layout.astro` | 非文章页回退 `siteLogo`（192×192） | 新增 `SITE_OG_IMAGE = "/og/home.jpg"` 分支（1200×630） | P1-6 |
 | `src/utils/crypto-utils.ts` | 确定性 salt/IV（`HMAC(password, slug)`）+ PBKDF2 10 万次 | 随机 salt/IV（`randomBytes`）+ PBKDF2 60 万次 | AES-GCM nonce 复用是致命弱点（P1-7）。已用 node 脚本验证：两次密文不同、解密还原一致、错误密码失败 |
