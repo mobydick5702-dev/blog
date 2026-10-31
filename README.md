@@ -7,6 +7,8 @@
 基于开源主题 [Firefly](https://github.com/CuteLeaf/Firefly) 二次定制（Astro 7 + Svelte 5 + Tailwind CSS 4）。
 所有定制改动都在源码里用 `[CUSTOM]` 标注，完整清单见 [CUSTOMIZATION.md](./CUSTOMIZATION.md)。
 
+该项目暂时完全基于AI生成，在学了在学了。
+
 ![站点首页](docs/images/moby-blog-home.jpg)
 
 ## 本地开发
