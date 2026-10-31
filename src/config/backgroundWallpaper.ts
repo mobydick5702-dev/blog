@@ -86,10 +86,10 @@ export const backgroundWallpaper: BackgroundWallpaperConfig = {
 			// 主页横幅副标题
 			// [CUSTOM] 打字机循环的几条标语（原值是主题 demo 的英文句子），可随时增删
 			subtitle: [
-				"技术笔记 · 生活随笔",
-				"把复杂的问题讲清楚",
-				"代码与文字之间",
-				"读书 · 写字 · 造轮子",
+				"愿你永远在充斥着雨与海的世界跋涉",
+				"潮汐与明日, 在月光下一同生长",
+				"迷迭香 | 回忆，纪念与坚守",
+				"一只紫翅琼鸟",
 			],
 			// 主页横幅副标题字体大小
 			subtitleSize: "1.5rem",

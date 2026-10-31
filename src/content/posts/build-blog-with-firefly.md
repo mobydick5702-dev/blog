@@ -1,118 +1,139 @@
 ---
 title: 用 Firefly 搭建自己的技术博客
-published: 2026-10-24
-description: 从克隆仓库、改几处配置、写第一篇文章，到推上 Cloudflare Pages 的完整记录，附我实际踩过的坑。
+published: 2026-10-31
+description: 从 clone 到 Cloudflare 部署，以及中间踩的几个坑。
 image: ./images/picture-1.webp
 tags: [Firefly, Astro, 博客搭建]
 category: 技术笔记
 lang: "zh-CN"
-draft: false
+draft: true
 ---
 
-这个站点本身就是一个用来验证流程的样本：主题是开源的 [Firefly](https://github.com/CuteLeaf/Firefly)，底座是 Astro 7，部署在 Cloudflare Pages 上。下面这份记录按我实际的操作顺序写，命令和路径都能直接照着敲——容易写错的地方我都在旁边标注了。
+Firefly 是基于 Astro 和 Fuwari 的博客主题，纯静态，对于新手十分的友好
 
-## 先看它是什么
 
-Firefly 基于 Astro 和 Fuwari 模板扩展而来，前端交互用 Svelte 5 写，样式走 Tailwind 4。它输出的是纯静态站点：没有数据库，没有服务端进程，构建完成就是一堆 HTML、CSS、JS 和图片。对个人技术博客来说，这个形态的好处很直接——便宜、快、几乎不会被拖垮，唯一的成本是每次更新都要重新构建一次。
+## 准备
 
-仓库对运行环境有明确要求：
+| 东西 | 要求 |
+| --- | --- |
+| Node | ≥ 22.23.0 |
+| pnpm | ≥ 11.22.0（项目 `preinstall` 强制） |
+| Git | 任意新版 |
 
-| 项目 | 要求 |
-|---|---|
-| Node.js | `>=22.23.0` |
-| 包管理器 | 只能用 pnpm（版本写死在 `packageManager` 字段里） |
-| 输出目录 | `dist/` |
+pnpm 一行装：
 
-## 安装依赖
+```
+npm install -g pnpm
+```
 
-```bash
-git clone https://github.com/CuteLeaf/Firefly.git my-blog
-cd my-blog
+装完 `node -v` 和 `pnpm -v` 各自看一眼，版本对得上再往下走。
+
+## 下载
+
+
+```
+git clone https://github.com/CuteLeaf/Firefly.git blog
+```
+
+## 装依赖
+
+必须用 pnpm，仓库的 `preinstall` 强制了。
+
+```
 pnpm install --registry=https://registry.npmmirror.com
+```
+
+1175 个包，两分半。官方源会更慢，建议直接走镜像。
+
+## 改配置
+
+配置全在 `src/config/` 下，一个文件管一块：
+
+| 文件 | 管什么 |
+| --- | --- |
+| siteConfig.ts | 站点标题、描述、域名、导航栏 |
+| profileConfig.ts | 头像、昵称、社交链接 |
+| backgroundWallpaper.ts | 壁纸、首页横幅文字 |
+| musicConfig.ts | 音乐播放器 |
+
+`site_url` 记得填对，canonical、sitemap、RSS 全靠它生成。
+
+## 本地看效果
+
+```
 pnpm dev
 ```
 
-`pnpm dev` 起来之后打开 `http://localhost:4321`，能看到默认的示例站点就说明环境没问题。首次安装大概 1175 个包，国内源两分半左右。
+打开 `http://localhost:4321`。第一次启动要编译，白屏十几秒正常，改配置会热更新。
 
-> [!NOTE] 为什么必须是 pnpm
-> 项目的 `preinstall` 脚本里写着 `npx only-allow pnpm`，用 npm 或 yarn 装依赖会直接失败。`pnpm-workspace.yaml` 里还有一份 `allowBuilds` 白名单，把 `esbuild` 和 `workerd` 放行——pnpm 10 以后默认拦截依赖的 `postinstall`，这两个不放行的话构建会以奇怪的方式挂掉。别删。
+## 写文章
 
-## 认路：只需要记住三层
+文章是 Markdown，放 `src/content/posts/`，文件名决定 URL。也可以走脚手架：
 
-新仓库文件很多，但日常真正会碰的只有三层：
-
-- `src/config/` —— 站点的全部“人味”都在这里。站点标题、头像、壁纸、导航、评论、字体、侧边栏全是独立文件，最后统一从 `src/config/index.ts` 导出。
-- `src/content/` —— 内容。`posts/` 是文章，`dynamic/` 是短动态，`projects/` 是项目展示，`spec/` 放关于页这类特殊页面。
-- `src/assets/` 和 `public/` —— 静态资源的两种待遇。`src/assets/` 交给 Astro 图片管线，构建期会压缩转格式；`public/` 原样拷进产物，不处理。
-
-剩下的 `src/components`、`src/layouts`、`src/plugins` 属于主题实现，除非要改功能，不用打开。
-
-## 改配置：其实只要动三个文件
-
-1. `src/config/siteConfig.ts`：`title`、`subtitle`、`description`、`site_url`，还有主题色相 `themeColor.hue` 和默认明暗模式。
-2. `src/config/profileConfig.ts`：头像 `avatar`、名字 `name`、签名 `bio`，以及 `links` 里的社交入口。图标用 Iconify 名，比如 `fa7-brands:github`，想用别的图标集得先 `pnpm add @iconify-json/<名称>`。
-3. `src/config/backgroundWallpaper.ts`：背景模式（`banner` / `fullscreen` / `overlay` / `none`）和图片地址，`desktop` 和 `mobile` 都可以给数组，刷新时随机取一张。
-
-> [!WARNING] `site_url` 一定要在构建前改对
-> 它不是“显示用的地址”，而是驱动 canonical、`og:url`、sitemap、RSS、Atom、robots.txt 的那根钉子，连文章里的外链判定都靠它。填错或者改完忘记重新构建，搜索结果和分享卡片会一直指向旧域名。写站点根地址即可，协议加域名，结尾不要带斜杠。
-
-## 新增一篇文章
-
-```bash
-pnpm new-post my-first-note
+```
+pnpm new-post hello-world
 ```
 
-会生成 `src/content/posts/my-first-note.md`，骨架里的 frontmatter 长这样：
+frontmatter：
 
 ```yaml
 ---
-title: my-first-note
-published: 2026-10-24
-description: ''
-image: ''
-tags: []
-category: ''
+title: 文章标题
+published: 2026-10-31
+description: 列表页显示的摘要
+image: ./images/cover.webp
+tags: [标签]
+category: 分类名
 draft: false
-lang: ''
-slug: my-first-note
 ---
 ```
 
-只有 `title` 和 `published` 是必填，其余都有默认值。有两件事特别容易搞混：
+`category` 随便写，`/categories/` 会自动按它聚合。`draft: true` 只在 dev 下可见。
 
-- **`slug` 字段不存在。** 骨架里那个 `slug` 是历史遗留，schema 里没有，写了也不生效。文章的 URL 由文件路径决定：`src/content/posts/my-first-note.md` 就是 `/posts/my-first-note/`，放进子目录 `guide/index.md` 就是 `/posts/guide/`。想改 URL 就改文件名或目录名。
-- **`draft: true` 的文章不会出现在列表里，也不会生成页面。** 本地调试想先看效果，把它改成 `false`。
+## 清掉 demo 内容
 
-图片建议统一放 `src/content/posts/images/`，在 frontmatter 和正文里都用相对当前 md 文件的路径引用：
+主题自带一堆示例文章、示例动态、示例项目等。
 
-```yaml
-image: ./images/picture-1.webp
+文章是 markdown，直接删，或者把 frontmatter 改成 `draft: true`。
+
+注意：**draft 的文章在构建时照样会被解析**。我修改时把示例文章引用的图片删了，构建直接报 `ImageNotFound`。建议不要随便动文件（）
+
+## 构建
+
+```
+pnpm build
 ```
 
-```markdown
-![配图说明](./images/picture-1.webp)
-```
+三分钟左右。中间会从 `cdn.jsdelivr.net` 拉字体，网络不好会报 `CannotFetchFontFile`，重跑就行。
 
-这样构建时会自动压缩成 webp、生成模糊占位图。往 `src/` 下加了新图之后跑一次 `pnpm lqips`，或者直接 `pnpm build`，占位图数据才会更新。
+产物在 `dist/`。
 
-## 推到线上
+## 部署
 
-先把你自己的仓库接上。克隆下来的 `origin` 指向上游作者，直接推会出事：
-
-```bash
-git remote rename origin upstream
-git remote add origin https://github.com/<你的账号>/<你的仓库>.git
-git push -u origin master
-```
-
-然后在 Cloudflare Dashboard 里建一个 Pages 项目，连接这个仓库，填三项：
+推到 GitHub，然后 Cloudflare Pages 连仓库：
 
 | 配置项 | 值 |
-|---|---|
-| Build command | `pnpm build` |
-| Build output directory | `dist` |
-| 环境变量 `NODE_VERSION` | `22.23.0` |
+| --- | --- |
+| 构建命令 | `pnpm build` |
+| 输出目录 | `dist` |
+| 环境变量 | `NODE_VERSION=22.23.0` |
 
-**不要设 `CF_WORKERS`。** 一旦设了，Astro 会切到 Cloudflare 适配器分支，产物变成 `dist/client` 加 `dist/server`，构建期也不再压缩图片，纯静态托管反而多出一堆麻烦。构建命令也不要简化成 `astro build`——`pnpm build` 是一条八段流水线，少了后面几段就没有搜索索引和占位图。
+**别设 `CF_WORKERS`**，设了会切成 Workers 模式，产物变成 `dist/client` 加 `dist/server`。
 
-最后挂上自己的域名，Pages 会自动建好 CNAME 并签发证书。等状态从 `Initializing` 变成 `Active`，打开页面看一眼：标题、头像、壁纸都是新的，`/posts/` 能进，`/search/` 能搜到东西，源码里的 canonical 是你自己的域名。到这一步，这个博客才算是你的。
+自定义域名在 Pages 里加，DNS 已经在 Cloudflare 了，点一下就好。
+
+## 几个坑
+
+**安全头写错了地方**。主题仓库里有个 `vercel.json` 写了 `X-Content-Type-Options` 之类的头，但 Cloudflare Pages 根本不读它，只认 `public/_headers`。不写的话线上一个安全头都没有。
+
+**静态资源默认不缓存**。`_astro/` 下的资源响应头是 `max-age=0, must-revalidate`，浏览器每次打开都要挨个问服务器一遍，网络抖一下就明显卡。在 `public/_headers` 里加：
+
+```
+/_astro/*
+  Cache-Control: public, max-age=31536000, immutable
+```
+
+文件名本来就带内容哈希，放心加一年。
+
+**robots.txt 别屏蔽 `/_astro/`**。主题默认写了 `Disallow: /_astro/`，那里放的是全站 CSS 和 JS，搜索引擎拿不到样式，收录质量会掉。
+

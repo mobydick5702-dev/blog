@@ -91,7 +91,7 @@ export const siteConfig: SiteConfig = {
 	// 主题色
 	themeColor: {
 		// 主题色的默认色相，范围从 0 到 360。例如：红色：0，青色：200，蓝绿色：250，粉色：345
-		hue: 165,
+		hue: 233,
 		// 默认模式："light" 亮色，"dark" 暗色，"system" 跟随系统
 		defaultMode: "system",
 	},
@@ -111,10 +111,11 @@ export const siteConfig: SiteConfig = {
 
 	// Favicon 配置
 	// 如果启用了OpenGraph图片功能，数组中需要包含png格式的favicon图标
+	// [CUSTOM] 换成自己的头像（由 picture/moby5702.jpg 缩放生成）：32 用于浏览器标签页，180 用于 iOS 主屏，192 用于 Android/PWA
 	favicon: [
 		{
 			// 图标文件路径
-			src: "/favicon/firefly-32.png",
+			src: "/favicon/moby-32.png",
 			// 可选，指定主题 'light' | 'dark'
 			// theme: "light",
 			// 可选，图标大小
@@ -122,11 +123,11 @@ export const siteConfig: SiteConfig = {
 		},
 		// [CUSTOM] 补 180/192：iOS「添加到主屏幕」与 PWA 图标需要更大尺寸（AUDIT P2-13）
 		{
-			src: "/favicon/firefly-180.png",
+			src: "/favicon/moby-180.png",
 			sizes: "180x180",
 		},
 		{
-			src: "/favicon/firefly-192.png",
+			src: "/favicon/moby-192.png",
 			sizes: "192x192",
 		},
 	],

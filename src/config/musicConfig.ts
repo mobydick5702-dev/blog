@@ -9,7 +9,7 @@ export const musicPlayerConfig: MusicPlayerConfig = {
 	showInNavbar: false,
 
 	// 是否在侧边栏显示音乐播放器组件
-	showInSidebar: false,
+	showInSidebar: true,
 
 	// 使用方式："meting" 使用 Meting API，"local" 使用本地音乐列表
 	mode: "local",
@@ -51,10 +51,24 @@ export const musicPlayerConfig: MusicPlayerConfig = {
 	local: {
 		playlist: [
 			{
-				name: "使一颗心免于哀伤",
-				artist: "知更鸟 / HOYO-MiX / Chevy",
-				url: "/assets/music/使一颗心免于哀伤-哼唱.mp3",
-				cover: "/assets/music/cover/109951169585655912.webp",
+				name: "Children of the city",
+				artist: "mili",
+				url: "/assets/music/Children-of-the-City.mp3",
+				cover: "/assets/music/cover/children-of-the-city.webp",
+				lrc: "",
+			},
+			{
+				name: "ラグトレイン(延误列车)",
+				artist: "稲葉曇",
+				url: "/assets/music/稲葉曇-ラグトレイン.mp3",
+				cover: "/assets/music/cover/children-of-the-city.webp",
+				lrc: "",
+			},
+			{
+				name: "異星にいこうね(去异星吧)",
+				artist: "胃弱/...",
+				url: "/assets/music/異星にいこうね-Neo.mp3",
+				cover: "/assets/music/cover/children-of-the-city.webp",
 				lrc: "",
 			},
 		],

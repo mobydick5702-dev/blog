@@ -112,8 +112,11 @@ if (title) {
 const favicons: Favicon[] =
 	siteConfig.favicon.length > 0 ? siteConfig.favicon : defaultFavicons;
 // apple-touch-icon：优先取 favicon 中的 png，否则取第一个
+// [CUSTOM] 再优先 180×180：原逻辑取第一个 png（=32×32），iOS「添加到主屏幕」会明显模糊
 const appleTouchIcon =
-	favicons.find((f) => f.src.toLowerCase().endsWith(".png")) ?? favicons[0];
+	favicons.find((f) => f.sizes === "180x180") ??
+	favicons.find((f) => f.src.toLowerCase().endsWith(".png")) ??
+	favicons[0];
 
 // const siteLang = siteConfig.lang.replace('_', '-')
 if (!lang) {

@@ -120,8 +120,13 @@ const getDynamicNavBarConfig = (): NavBarConfig => {
 		// 子菜单
 		children: [
 			{
+				name: "Bilibili",
+				external: true,	
+				url: "https://space.bilibili.com/484011958",
+				icon: "fa7-brands:bilibili",
+			},
+			{
 				name: "GitHub",
-				// [CUSTOM] 用户确认的 GitHub ID：mobydick5702-dev（原为 moby5702 的推断值）
 				url: "https://github.com/mobydick5702-dev",
 				external: true,
 				icon: "fa7-brands:github",
