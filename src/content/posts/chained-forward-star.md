@@ -2,7 +2,7 @@
 title: 链式前向星
 published: 2026-10-31
 description: 一种比较好用的存图方法。
-tags: [算法，学习笔记]
+tags: [算法, 学习笔记]
 category: 算法笔记
 lang: "zh-CN"
 draft: false

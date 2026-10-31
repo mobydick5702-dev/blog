@@ -16,7 +16,7 @@ export const profileConfig: ProfileConfig = {
 
 	// 个人签名
 	// [CUSTOM] 一句自然的中文简介，显示在侧边栏 / 关于卡片等处，可随手修改。
-	bio: "写代码，也写字：技术笔记为主，也收藏生活与文学。",
+	bio: "愿你永远在充斥着雨与海的世界跋涉。",
 
 	// 链接配置
 	// 已经预装的图标集：fa7-brands，fa7-regular，fa7-solid，material-symbols，simple-icons
