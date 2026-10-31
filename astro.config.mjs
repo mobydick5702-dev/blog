@@ -239,6 +239,16 @@ export default defineConfig({
 				// 根据页面开关配置过滤sitemap
 				const url = new URL(page);
 				const pathname = url.pathname;
+				// [CUSTOM] 首版空栏目：/dynamic/、/projects/、/series/ 三页当前内容为 0 ——
+				// 页面本身保留且可正常访问（显示主题自带的空状态），只是不写进 sitemap，
+				// 避免搜索引擎收录空页面。等对应栏目有内容后，删掉这里对应的判断即可。
+				if (
+					pathname === "/dynamic/" ||
+					pathname === "/projects/" ||
+					pathname === "/series/"
+				) {
+					return false;
+				}
 				if (pathname === "/dynamic/" && !siteConfig.pages.dynamic) {
 					return false;
 				}

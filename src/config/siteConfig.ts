@@ -7,6 +7,11 @@ import { resolveSiteLang } from "../utils/site-config-utils";
 const SITE_LANG = resolveSiteLang("zh_CN");
 
 // 页面开关配置 - 控制特定页面的访问权限，设为false会返回404并自动隐藏对应的导航栏菜单项
+// [CUSTOM] 本站定位是个人技术博客：
+//   - 动漫/追番类（bilibili、bangumi、vndb、mal）与打赏保持关闭；
+//   - 友链、留言板、相册、书签导航保留开启；
+//   - 动态（dynamic）/ 项目（projects）页面本身开着（内容为 0 时显示主题自带的得体空状态），
+//     但导航入口在 navBarConfig.ts 里隐藏，避免让人点进"暂无内容"——确切的理由写在那两个开关上方。
 const pages = resolvePageToggles({
 	// ── 社交 (Social) ──────────────────────────────────
 
@@ -18,8 +23,17 @@ const pages = resolvePageToggles({
 	// ── 我的 (My) ──────────────────────────────────
 
 	// 动态页面开关
+	// [CUSTOM] 保持 true（页面可访问、主题自带「还没有发布动态」得体空状态），但导航入口已在
+	// navBarConfig.ts 里隐藏 —— 当前动态数量为 0（demo 动态已随内容清理删除）。
+	// 为什么不直接设 false：首页/侧栏与 sitemap 的过滤逻辑对 dynamic 是覆盖的，但主题的 sitemap
+	// 过滤器缺 projects 一项（astro.config.mjs），关掉页面会在 sitemap 里留下 404 链接；
+	// 统一采用"页面保留 + 导航不露出"的方式，避免产生死链。
+	// 想恢复入口：取消 navBarConfig.ts 里 LinkPresets.Dynamic 那行的注释。
 	dynamic: true,
 	// 项目展示页开关
+	// [CUSTOM] 同上：保持 true（页面显示「暂无项目」），导航入口在 navBarConfig.ts 里隐藏。
+	// 当前项目数量为 0（两个 demo 项目已置 draft）。
+	// 想恢复入口：取消 navBarConfig.ts 里 LinkPresets.Projects 那行的注释。
 	projects: true,
 	// 相册页面开关
 	gallery: true,
@@ -37,32 +51,41 @@ const pages = resolvePageToggles({
 	// ── 关于 (About) ──────────────────────────────────
 
 	// 打赏页面开关
-	sponsor: true,
+	// [CUSTOM] 默认关闭：主题自带的打赏页里是示例收款码（不是本人的），开着会误导访客。
+	// 换成自己的收款方式后（见 src/config/sponsorConfig.ts），再把这里改回 true。
+	sponsor: false,
 });
 
+// [CUSTOM] 站点基础信息：由 Firefly 主题的 demo 值改为「Moby's Blog」个人博客。
+// 每处改动的原值、原因、还原方式都记在仓库根目录的 CUSTOMIZATION.md（改动清单表）。
 export const siteConfig: SiteConfig = {
 	// 站点标题
-	title: "Firefly",
+	title: "Moby's Blog",
 
 	// 站点副标题
-	subtitle: "Demo site",
+	subtitle: "技术笔记 · 生活随笔",
 
 	// 站点 URL
-	site_url: "https://firefly.cuteleaf.cn",
+	// [CUSTOM] 本站正式域名（博客子域名）。canonical / og:url / sitemap / RSS 全部由它派生，
+	// 因此必须"构建前"就是正确的值；若日后迁站（换域名或换子路径），只改这一处再重新构建。
+	site_url: "https://blog.265702.xyz",
 
 	// 站点描述
+	// [CUSTOM] 覆盖技术笔记 / 生活随笔 / 文学分享三类内容，同时用于首页与搜索引擎摘要。
 	description:
-		"Firefly 是一款基于 Astro 框架和 Fuwari 模板开发的清新美观且现代化个人博客主题模板，专为技术爱好者和内容创作者设计。该主题融合了现代 Web 技术栈，提供了丰富的功能模块和高度可定制的界面，让您能够轻松打造出专业且美观的个人博客网站。",
+		"Moby5702 的个人技术博客：以编程与技术笔记为主，也记录生活随笔、读书与文学分享。",
 
 	// 站点关键词
+	// [CUSTOM] 按本人内容方向重写，去掉原型里的 Fuwari / ACGN（主题模板与二次元标签）。
 	keywords: [
-		"Firefly",
-		"Fuwari",
+		"Moby5702",
+		"技术笔记",
+		"编程",
+		"生活随笔",
+		"文学",
 		"Astro",
-		"ACGN",
-		"博客",
-		"技术博客",
 		"静态博客",
+		"个人博客",
 	],
 
 	// 主题色
@@ -110,6 +133,8 @@ export const siteConfig: SiteConfig = {
 		// image 和 url 类型可额外设置 valueDark，用于暗色模式下显示另一张图片，不设置则亮暗色共用 value
 		// 例如: { type: "image", value: "assets/images/logo.png", valueDark: "assets/images/logo-dark.png", alt: "Logo" }
 		// 使用 Astro 图标库时不需要设置 valueDark，图标会自动跟随主题亮暗色切换
+		// [CUSTOM] 导航栏 logo 保留主题自带的萤火虫图标（视觉沿用 Firefly 默认风格）；
+		// 想换成自己的 logo：把图片放进 src/assets/images/logo/，再改下面 value/valueDark。
 		logo: {
 			type: "image",
 			value: "assets/images/logo/firefly-light.png",
@@ -117,7 +142,8 @@ export const siteConfig: SiteConfig = {
 			alt: "🍀",
 		},
 		// 导航栏标题
-		title: "Firefly Blog",
+		// [CUSTOM] 导航栏标题改为本站名（原值 "Firefly Blog"）
+		title: "Moby's Blog",
 		// 全宽导航栏，导航栏是否占满屏幕宽度
 		widthFull: false,
 		// 导航菜单对齐方式，left：左对齐，center：居中
@@ -132,7 +158,8 @@ export const siteConfig: SiteConfig = {
 	},
 
 	// 站点开始日期，用于统计运行天数
-	siteStartDate: "2025-01-01",
+	// [CUSTOM] 改成建站日期（原值 "2025-01-01" 是主题 demo 的日期），想改"已运行天数"就改这里。
+	siteStartDate: "2026-10-30",
 
 	// 站点时区（IANA 时区字符串），用于格式化bangumi、rss里的构建日期时间等等..
 	// 示例："Asia/Shanghai", "UTC", 如果为空，则按照构建服务器的时区进行时区转换
@@ -262,13 +289,15 @@ export const siteConfig: SiteConfig = {
 	// ── Bilibili配置 ──────────────────────────────────
 	bilibili: {
 		// 你的 Bilibili 用户 UID
-		uid: "38932988",
+		// [CUSTOM] 原值是主题 demo 的 UID，已清空；对应页面当前关闭，要开启请先填自己的 UID。
+		uid: "",
 	},
 
 	// ── 番组计划bangumi配置 ──────────────────────────────────
 	bangumi: {
 		// Bangumi用户ID
-		userId: "1143164",
+		// [CUSTOM] 原值是主题 demo 的账号，已清空（bangumi 页面当前关闭）。
+		userId: "",
 		// 数据模式：static=构建时获取，dynamic=客户端实时获取
 		// static 模式在构建时获取数据并静态渲染，部署后数据不更新
 		// dynamic 模式在浏览器中实时请求 API，始终显示最新数据
@@ -292,7 +321,8 @@ export const siteConfig: SiteConfig = {
 	// ── VNDB配置 ──────────────────────────────────
 	vndb: {
 		// VNDB 用户 ID
-		userId: "u358128",
+		// [CUSTOM] 原值是主题 demo 的账号，已清空（vndb 页面当前关闭；userId 为空时构建期不会去下载封面）。
+		userId: "",
 		// 数据模式：static=构建时获取，dynamic=客户端实时获取
 		// static 模式在构建时获取数据并静态渲染，部署后数据不更新
 		// dynamic 模式在浏览器中实时请求 API，始终显示最新数据
@@ -312,9 +342,11 @@ export const siteConfig: SiteConfig = {
 	// ── MyAnimeList配置 ──────────────────────────────────
 	mal: {
 		// MyAnimeList 用户名（列表需为公开状态，私密列表无法读取）
-		username: "cuteleaf",
+		// [CUSTOM] 原值是主题 demo 的用户名，已清空（myanimelist 页面当前关闭）。
+		username: "",
 		// MyAnimeList Client ID，在 https://myanimelist.net/apiconfig 注册免费应用后获取
-		clientId: "	0ef34371450f9c6c809deaadec6aa8f3",
+		// [CUSTOM] 主题 demo 的 Client ID 已清空，需要时填自己注册的。
+		clientId: "",
 		// MAL API 地址
 		apiUrl: "https://api.myanimelist.net/v2",
 		// 动画条目详情页地址，末尾需要带 /

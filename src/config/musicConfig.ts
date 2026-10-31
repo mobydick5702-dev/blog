@@ -1,12 +1,15 @@
 import type { MusicPlayerConfig } from "../types/musicConfig";
 
 // 音乐播放器配置
+// [CUSTOM] 默认不在导航栏/侧边栏显示：主题自带的唯一一首演示曲（public/assets/music/ 下）
+// 是第三方版权音乐，不适合直接公开在个人站点上。想启用：把自己的 mp3 放进 public/assets/music/，
+// 改下面 local.playlist 的 url/cover，再把两个 showIn* 改回 true。
 export const musicPlayerConfig: MusicPlayerConfig = {
 	// 是否在导航栏显示音乐播放器入口
-	showInNavbar: true,
+	showInNavbar: false,
 
 	// 是否在侧边栏显示音乐播放器组件
-	showInSidebar: true,
+	showInSidebar: false,
 
 	// 使用方式："meting" 使用 Meting API，"local" 使用本地音乐列表
 	mode: "local",

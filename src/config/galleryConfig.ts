@@ -1,6 +1,20 @@
 import type { GalleryConfig } from "@/types/galleryConfig";
 
 // 相册配置
+// [CUSTOM] 主题自带的两个示例相册（"可爱流萤" firefly-2026、"加密相册示例" encrypted-test）已下线：
+// 相册列表清空 + public/gallery/ 下的示例图片目录已删除，/gallery/ 现在显示主题自带的
+// 「暂无相册」空状态。相册页与导航入口都保留，等你放自己的照片。
+// 加自己的相册：把图片放进 public/gallery/<相册id>/（封面可选 cover.*），再在下面 albums 数组里加一项，例如：
+// {
+// 	id: "my-trip-2026",              // 唯一标识，同时是目录名与 URL 路径
+// 	name: "旅行照片",
+// 	description: "2026 年夏天的一次长途旅行",
+// 	location: "云南",
+// 	date: "2026-08-01",
+// 	tags: ["旅行"],
+// 	// password: "123456",          // 需要密码才能查看时填（可选）
+// 	// passwordHint: "常用密码",      // 密码提示（可选，需配合 password）
+// },
 export const galleryConfig: GalleryConfig = {
 	// 相册列表
 	albums: [
@@ -15,25 +29,6 @@ export const galleryConfig: GalleryConfig = {
 		// password: 访问密码，设置后需要输入密码才能查看相册内容（可选）
 		// passwordHint: 密码提示，设置后在输入密码错误时显示（可选，需配合password使用）
 		// 每添加一个数组项就相当于添加了一个相册，记得在 public/gallery/ 目录下创建对应的子目录并放入图片
-		{
-			id: "firefly-2026",
-			name: "可爱流萤",
-			description: "飞萤之火自无梦的长夜亮起，绽放在终竟的明天。",
-			location: "崩坏：星穹铁道",
-			date: "2026-01-01",
-			tags: ["崩坏星穹铁道", "流萤"],
-		},
-		{
-			id: "encrypted-test",
-			name: "加密相册示例",
-			description:
-				"这是一个加密相册的示例，设置了访问密码，只有输入正确的密码才能查看相册内容。",
-			location: "崩坏：星穹铁道",
-			date: "2026-02-01",
-			tags: ["加密相册", "示例"],
-			password: "123456",
-			passwordHint: "示例密码123456",
-		},
 	],
 
 	// 瀑布流最小列宽(px)，浏览器根据容器宽度自动计算列数，默认 240

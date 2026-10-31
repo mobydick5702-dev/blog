@@ -22,7 +22,8 @@ export async function GET(context: APIContext): Promise<Response> {
 	return rss({
 		title: siteConfig.title,
 		description: siteConfig.subtitle || "No description",
-		site: context.site ?? "https://firefly.cuteleaf.cn",
+		// [CUSTOM] 兜底地址改用 siteConfig.site_url，去掉硬编码的主题 demo 域名
+		site: context.site ?? siteConfig.site_url,
 		customData: `<templateTheme>Firefly</templateTheme>
 		<templateThemeVersion>${pkg.version}</templateThemeVersion>
 		<templateThemeUrl>https://github.com/CuteLeaf/Firefly</templateThemeUrl>

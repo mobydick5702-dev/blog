@@ -5,7 +5,8 @@ export const announcementConfig: AnnouncementConfig = {
 	title: "",
 
 	// 公告内容
-	content: "欢迎来到我的博客！这是一则示例公告。",
+	// [CUSTOM] 原来是"这是一则示例公告"，改成一句真实的站点欢迎语，可随时按需替换。
+	content: "欢迎来到 Moby's Blog ✨ 这里主要写技术笔记，也会更新生活随笔与读书、文学分享。",
 
 	// 是否允许用户关闭公告
 	closable: true,

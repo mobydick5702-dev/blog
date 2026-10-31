@@ -1,5 +1,8 @@
 import type { SponsorConfig } from "../types/sponsorConfig";
 
+// [CUSTOM] 打赏页在 siteConfig.pages 里默认关闭（页面里展示的是主题作者的示例收款码）。
+// 想开启：先把下面的收款方式换成自己的（二维码图片放 public/assets/images/sponsor/），
+// 再把 siteConfig.pages.sponsor 改回 true。
 export const sponsorConfig: SponsorConfig = {
 	// 页面标题，如果留空则使用 i18n 中的翻译
 	title: "",
@@ -26,54 +29,43 @@ export const sponsorConfig: SponsorConfig = {
 			name: "支付宝",
 			icon: "fa7-brands:alipay",
 			// 收款码图片路径（需要放在 public 目录下）
+			// [CUSTOM] public/assets/images/sponsor/alipay.png 目前仍是主题的示例图，换成自己的收款码后再启用
 			qrCode: "/assets/images/sponsor/alipay.png",
 			link: "",
 			description: "使用 支付宝 扫码打赏",
-			enabled: true,
+			enabled: false,
 		},
 		{
 			name: "微信",
 			icon: "fa7-brands:weixin",
+			// [CUSTOM] 同上，wechat.png 也是示例图，换成自己的后把 enabled 改回 true
 			qrCode: "/assets/images/sponsor/wechat.png",
 			link: "",
 			description: "使用 微信 扫码打赏",
-			enabled: true,
+			enabled: false,
 		},
 		{
 			name: "ko-fi",
 			icon: "simple-icons:kofi",
 			qrCode: "",
-			link: "https://ko-fi.com/cuteleaf",
-			description: "Buy a Coffee for Firefly",
-			enabled: true,
+			// [CUSTOM] 原链接是主题作者的 ko-fi 主页，改成自己的（没有就保持空串 + enabled: false）
+			link: "",
+			description: "Buy me a Coffee",
+			enabled: false,
 		},
 		{
 			name: "爱发电",
 			icon: "simple-icons:afdian",
 			qrCode: "",
-			link: "https://ifdian.net/a/cuteleaf",
+			// [CUSTOM] 原链接是主题作者的爱发电主页，改成自己的
+			link: "",
 			description: "通过 爱发电 进行打赏",
-			enabled: true,
+			enabled: false,
 		},
 	],
 
 	// 打赏者列表（可选）
-	sponsors: [
-		// 示例：已实名打赏者
-		{
-			name: "夏叶",
-			avatar:
-				"https://weavatar.com/avatar/d252655d40d6874417a720bad0a6c5f77f8f6a1fd2f882f8f338402dc37e4190?s=640",
-			amount: "¥50",
-			date: "2025-10-01",
-		},
-
-		// 示例：匿名打赏者
-		{
-			name: "匿名用户",
-			// avatar: "",
-			amount: "¥20",
-			date: "2025-10-01",
-		},
-	],
+	// [CUSTOM] 原示例里是主题作者的示例打赏记录，已清空；有真实打赏后按下面格式自行添加：
+	// { name: "昵称", avatar: "https://example.com/avatar.png", amount: "¥50", date: "2026-10-30" },
+	sponsors: [],
 };

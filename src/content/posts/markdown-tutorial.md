@@ -1,6 +1,7 @@
 ---
 title: Markdown 教程
 published: 1970-01-01
+draft: true
 pinned: false
 description: 一个简明的 Markdown 博客示例。
 tags: [Markdown, 文章示例]
@@ -11,6 +12,7 @@ sourceLink: "https://github.com/emn178/markdown"
 slug: markdown-tutorial
 series: "Firefly 功能示例2"
 seriesOrder: 1
+# [CUSTOM] 主题示例内容，已下线（恢复：draft: false）
 ---
 
 这是一个展示如何编写 Markdown 文件的示例。本文档汇总了核心语法与常见扩展（GFM）。

@@ -1,8 +1,9 @@
 /**
  * Memos API 客户端适配器
  * 直接从 Memos API 获取数据并转换为动态系统格式
- * @author: CuteLeaf <xiaye@msn.com>
+ * @author: CuteLeaf
  */
+// [CUSTOM] 上游注释里的作者邮箱已移除（原作者署名与仓库 LICENSE 保留，版权信息不删）。
 import { Marked } from "marked";
 
 interface MemoAttachment {

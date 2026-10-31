@@ -2,6 +2,7 @@
 title: Markdown 扩展功能
 published: 1970-01-01
 updated: 1970-01-01
+draft: true
 description: "了解 Firefly 中的 Markdown 功能"
 image: ""
 tags: [演示, 示例, Markdown, Firefly]
@@ -9,6 +10,7 @@ category: "文章示例"
 slug: markdown-extended
 series: "Firefly 功能示例2"
 seriesOrder: 2
+# [CUSTOM] 主题示例内容，已下线（恢复：draft: false）
 ---
 
 ## GitHub 仓库卡片

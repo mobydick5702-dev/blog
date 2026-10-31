@@ -1,10 +1,15 @@
 import type { BackgroundWallpaperConfig } from "@/types/backgroundWallpaper";
 
+// [CUSTOM] 背景壁纸换成本人素材：桌面/移动默认都用 picture/background2.jpg（已转成仓库内资产），
+// 另外两张备选壁纸也一并放进仓库，换图只改下面 src 里的路径。
+// 壁纸模式、轮播、水波纹、模糊渐变等效果参数全部保持主题默认值，不做改动，避免影响性能。
 export const backgroundWallpaper: BackgroundWallpaperConfig = {
 	// 壁纸模式："banner" 横幅壁纸，"fullscreen" 全屏壁纸，"overlay" 覆盖透明，"none" 纯色背景无壁纸
 	mode: "banner",
 	// 是否启用背景视频播放，配置后将在导航栏显示视频播放按钮
-	playerEnable: true,
+	// [CUSTOM] 默认关闭：原默认播放地址是主题作者的演示视频（第三方 CDN），本站不沿用。
+	// 要用背景视频：把这里改成 true，并在下面 src.playerUrl 填自己的视频地址。
+	playerEnable: false,
 	/**
 	 * 背景图片配置
 	 * 图片路径支持三种格式：
@@ -38,34 +43,35 @@ export const backgroundWallpaper: BackgroundWallpaperConfig = {
 	src: {
 		// 桌面背景图片（支持单张或多张随机）
 		// desktop: "assets/images/DesktopWallpaper/d1.avif",
-		desktop: [
-			"assets/images/DesktopWallpaper/d1.avif",
-			"assets/images/DesktopWallpaper/d2.avif",
-			"assets/images/DesktopWallpaper/d3.avif",
-			"assets/images/DesktopWallpaper/d4.avif",
-			"assets/images/DesktopWallpaper/d5.avif",
-			"assets/images/DesktopWallpaper/d6.avif",
-		],
+		// [CUSTOM] 当前启用 picture/background2.jpg → assets/images/DesktopWallpaper/moby-desktop.jpg（2560×1524）。
+		// 备选壁纸同样已在仓库内，如需更换改这里的路径即可：
+		//   desktop: ["assets/images/DesktopWallpaper/moby-desktop-alt1.webp"]  // 来自 picture/background.png（该文件实际是 WebP）
+		//   desktop: ["assets/images/DesktopWallpaper/moby-desktop-alt2.jpg"]   // 来自 picture/background3.jpg
+		// 想要多张随机显示就并列写成数组；主题自带的 d1-d6 / m1-m6 示例图仍保留，可混用或删除。
+		desktop: ["assets/images/DesktopWallpaper/moby-desktop.jpg"],
 		// 移动背景图片（支持单张或多张随机）
 		// mobile: "assets/images/MobileWallpaper/m1.avif",
-		mobile: [
-			"assets/images/MobileWallpaper/m1.avif",
-			"assets/images/MobileWallpaper/m2.avif",
-			"assets/images/MobileWallpaper/m3.avif",
-			"assets/images/MobileWallpaper/m4.avif",
-			"assets/images/MobileWallpaper/m5.avif",
-			"assets/images/MobileWallpaper/m6.avif",
-		],
+		// [CUSTOM] 移动端是同一张图按 2:3 竖屏裁切的版本（moby-mobile.jpg，1080×1620），
+		// 避免横图在手机上被裁成一条窄缝；换图同样只改这里。
+		mobile: ["assets/images/MobileWallpaper/moby-mobile.jpg"],
 		// 背景视频播放地址
 		// 支持单个视频路径（字符串）或多个视频循环（数组，参考上面壁纸配置）
 		// 支持远程视频URL，本地视频请放在 public/assets/videos/ 目录下
 		// playerUrl: "/assets/videos/firefly.mp4",
-		playerUrl: "https://bed.twoleaf.cn/file/1785658612716_firefly.mp4",
+		// [CUSTOM] 主题 demo 的远程视频地址已移除；要启用请在 playerEnable=true 后填自己的视频地址。
+		playerUrl: "",
 	},
 	// 横幅壁纸和全屏壁纸共享配置
 	common: {
 		// 壁纸遮罩暗度，让横幅文字显示更清晰，0-1之间，值越大越暗
-		dimOpacity: 0.2,
+		// [CUSTOM] 提高横幅白字可读性：0.2 → 0.4。
+		// 本站壁纸（background2）偏亮，实测首页横幅 72px 白字标题的对比度只有 2.08:1，低于 WCAG AA 大字要求的 3:1。
+		// 调到 0.4 后：标题区整体均色 2.08 → 3.6:1，字形背后最不利的 16×16 小块也由 1.87 → 3.1:1（全部 ≥3:1 达标）。
+		// 任务建议值是 0.35（均色可达 3.1:1），但局部最亮处仍只有 2.8:1，故取 0.4 留一点余量。
+		// 该项被 banner / fullscreen 两种模式、桌面端与移动端共用
+		// （读取点：src/utils/banner-visibility-utils.ts → src/components/layout/WallpaperSection.astro 的 .banner-dim-overlay），
+		// 改这一处即可全端生效。若觉得壁纸太暗，可在 0.35~0.4 之间回调；换更亮的壁纸则需继续调大。
+		dimOpacity: 0.4,
 		// 多视频播放模式："order" 顺序循环，"random" 随机切换（仅当 playerUrl 为数组时生效）
 		playerMode: "random",
 		// 主页横幅文字
@@ -73,17 +79,17 @@ export const backgroundWallpaper: BackgroundWallpaperConfig = {
 			// 是否启用主页横幅文字
 			enable: true,
 			// 主页横幅主标题
-			title: "Lovely firefly!",
+			// [CUSTOM] 换成站点名（原值 "Lovely firefly!" 是主题 demo 的标语）
+			title: "Moby's Blog",
 			// 主页横幅主标题字体大小
 			titleSize: "4.5rem",
 			// 主页横幅副标题
+			// [CUSTOM] 打字机循环的几条标语（原值是主题 demo 的英文句子），可随时增删
 			subtitle: [
-				"In Reddened Chrysalis, I Once Rest",
-				"From Shattered Sky, I Free Fall",
-				"Amidst Silenced Stars, I Deep Sleep",
-				"Upon Lighted Fyrefly, I Soon Gaze",
-				"From Undreamt Night, I Thence Shine",
-				"In Finalized Morrow, I Full Bloom",
+				"技术笔记 · 生活随笔",
+				"把复杂的问题讲清楚",
+				"代码与文字之间",
+				"读书 · 写字 · 造轮子",
 			],
 			// 主页横幅副标题字体大小
 			subtitleSize: "1.5rem",
@@ -103,22 +109,20 @@ export const backgroundWallpaper: BackgroundWallpaperConfig = {
 			linksEnable: true,
 			// 首页横幅标题下方的链接图标（可选，支持 showName 显示文字）
 			// 图标支持 Iconify 格式：fa7-brands:github、fa7-solid:envelope、mdi:rss 等
+			// [CUSTOM] 横幅下方的图标入口改成本人的（去掉指向主题作者站点和打赏页的 demo 链接）
 			links: [
 				{
 					name: "GitHub",
 					icon: "fa7-brands:github",
-					url: "https://github.com/CuteLeaf/Firefly",
+					// [CUSTOM] 用户确认的 GitHub ID：mobydick5702-dev（原为推断值）
+					url: "https://github.com/mobydick5702-dev",
 					showName: true,
 				},
 				{
 					name: "Email",
 					icon: "fa7-solid:envelope",
-					url: "mailto:xiaye@msn.com",
-				},
-				{
-					name: "Sponsor",
-					icon: "material-symbols:favorite",
-					url: "https://blog.cuteleaf.cn/sponsor/",
+					// [CUSTOM] 已填写：用户的公开联系邮箱（moby5702@qq.com）
+					url: "mailto:moby5702@qq.com",
 				},
 				{
 					name: "RSS",

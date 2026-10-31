@@ -1,7 +1,5 @@
 {
   "src:assets/images/avatar.avif": "dcd8d5d1cecabea9a9",
-  "public:gallery/firefly-2026/cover.avif": "7588a28a8f989e8d88",
-  "public:gallery/firefly-2026/1.avif": "c8bca9dde6d2babfb5",
   "src:content/posts/guide/cover.avif": "c8bca9dde6d2babfb5",
   "src:content/posts/images/vitepress.avif": "3d3d43e1e1e7ebe0da",
   "src:content/posts/images/right-grid2.avif": "cbcdcddddcd9d8d7db",
@@ -34,5 +32,16 @@
   "public:assets/images/sponsor/wechat.png": "d5d5d5dad9d7dbd8cf",
   "public:assets/images/sponsor/alipay.png": "8ebbde91bedf93c0e0",
   "public:assets/images/ad/ad1.webp": "a1b8b68a8e918c8f93",
-  "src:content/projects/images/firefly.avif": "b5b0b3bcb6bbe0e0df"
+  "src:content/projects/images/firefly.avif": "b5b0b3bcb6bbe0e0df",
+  "src:assets/images/avatar-moby.jpg": "8f8f96a1a0a8dbdde2",
+  "public:assets/images/avatar.jpg": "8f8f96a1a0a8dbdde2",
+  "src:content/posts/images/picture-5.webp": "a2a8adc6c9d1bfc3cc",
+  "src:content/posts/images/picture-4.webp": "aea4acb5afb54f4a50",
+  "src:content/posts/images/picture-3.webp": "d1d2d7f2f2f1c5bbbb",
+  "src:content/posts/images/picture-2.webp": "949199979497211e23",
+  "src:content/posts/images/picture-1.webp": "5d5b6a484252777e8a",
+  "src:assets/images/MobileWallpaper/moby-mobile.jpg": "b8ced5daeaf28d9fa5",
+  "src:assets/images/DesktopWallpaper/moby-desktop.jpg": "c5dce9dae9f0aebcc0",
+  "src:assets/images/DesktopWallpaper/moby-desktop-alt2.jpg": "b9b4bbc2bcc2746f74",
+  "src:assets/images/DesktopWallpaper/moby-desktop-alt1.webp": "55505557525a383a40"
 }

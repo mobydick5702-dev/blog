@@ -1,0 +1,3 @@
+# 占位文件：保留 src/content/dynamic/ 目录（git 不跟踪空目录）。
+# 主题自带的 4 条 demo 动态已按 F1 清理；本目录暂时没有动态条目。
+# 需要时用 `pnpm new-dynamic` 生成新条目（frontmatter: published / pinned / location）。

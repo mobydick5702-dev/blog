@@ -1,5 +1,7 @@
 import type { CommentConfig } from "../types/commentConfig";
 
+// [CUSTOM] 评论系统默认不启用（type: "none"），留言板与文章评论区在配置好之前不会渲染。
+// 想开评论：把 type 改成 waline / twikoo / giscus 等，并按对应配置块填好自己的服务地址。
 export const commentConfig: CommentConfig = {
 	// 评论系统类型: none, twikoo, waline, giscus, disqus, artalk，默认为none，即不启用评论系统
 	type: "none",
@@ -52,15 +54,16 @@ export const commentConfig: CommentConfig = {
 	},
 
 	//giscus评论系统配置
+	// [CUSTOM] 原值指向主题作者的仓库，已换成占位值；去 https://giscus.app 生成配置后按它填写。
 	giscus: {
 		// 设置 Giscus 评论系统仓库
-		repo: "CuteLeaf/Firefly",
+		repo: "your-name/your-repo",
 		// 设置 Giscus 评论系统仓库ID
-		repoId: "R_kgD2gfdFGd",
+		repoId: "",
 		// 设置 Giscus 评论系统分类
 		category: "General",
 		// 获取 Giscus 评论系统分类ID
-		categoryId: "DIC_kwDOKy9HOc4CegmW",
+		categoryId: "",
 		// 获取 Giscus 评论系统映射方式
 		mapping: "title",
 		// 获取 Giscus 评论系统严格模式
@@ -80,6 +83,7 @@ export const commentConfig: CommentConfig = {
 	//disqus评论系统配置
 	disqus: {
 		// 获取 Disqus 评论系统
-		shortname: "firefly",
+		// [CUSTOM] 原值 "firefly" 是主题 demo 的 shortname，请换成自己 Disqus 站点的 shortname
+		shortname: "",
 	},
 };

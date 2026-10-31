@@ -25,6 +25,10 @@ pnpm-debug.log*
 
 .vercel
 
+# [CUSTOM] Cloudflare Workers/wrangler 本地构建产物（仅当以 CF_WORKERS=1 走 Workers 方式时产生，
+# 纯静态 Pages 部署不会生成），加到忽略列表避免误提交。
+.wrangler/
+
 package-lock.json
 bun.lockb
 yarn.lock

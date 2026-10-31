@@ -1,7 +1,8 @@
 /**
  * remark-wiki-link — Obsidian 风格 Wiki Link 插件
- * @author CuteLeaf <xiaye@msn.com>
+ * @author CuteLeaf
  */
+// [CUSTOM] 上游注释里的作者邮箱已移除（原作者署名与仓库 LICENSE 保留，版权信息不删）。
 
 import { readdirSync, readFileSync, statSync } from "node:fs";
 import path from "node:path";

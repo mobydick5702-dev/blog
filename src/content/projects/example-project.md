@@ -2,7 +2,7 @@
 title: "示例项目"
 slug: example-project
 published: 1970-01-01
-draft: false
+draft: true
 order: 100
 description: "本文档介绍项目集合的 Frontmatter 字段与状态键值，供你在 src/content/projects/ 下编写项目时参考。"
 image: ""
@@ -10,6 +10,7 @@ status: "planning"
 tags:
   - 文档
   - 指南
+# [CUSTOM] 主题示例内容，已下线（恢复：draft: false）
 ---
 
 ## 项目展示页使用指南

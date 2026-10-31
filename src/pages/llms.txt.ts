@@ -17,6 +17,10 @@ type KeyPage = {
 };
 
 // 主要页面：首页 / 归档 / 关于始终包含；其余按 siteConfig.pages 开关过滤
+// [CUSTOM] 首版空栏目：/dynamic/、/projects/ 当前内容为 0，页面保留但不列进 llms.txt
+// （与 astro.config.mjs 里 sitemap 的排除项保持一致）。有内容后把对应路径从这里删掉即可。
+const LLMS_EXCLUDED_PATHS = new Set<string>(["/dynamic/", "/projects/"]);
+
 const KEY_PAGES: KeyPage[] = [
 	{ labelKey: I18nKey.home, path: "/" },
 	{ labelKey: I18nKey.archive, path: "/archive/" },
@@ -94,7 +98,9 @@ export const GET: APIRoute = async ({ site }) => {
 	const abs = (path: string) => new URL(url(path), base).href;
 
 	const enabledPages = KEY_PAGES.filter(
-		(pageEntry) => !pageEntry.pageKey || siteConfig.pages[pageEntry.pageKey],
+		(pageEntry) =>
+			(!pageEntry.pageKey || siteConfig.pages[pageEntry.pageKey]) &&
+			!LLMS_EXCLUDED_PATHS.has(pageEntry.path),
 	);
 	const posts = await getSortedPosts();
 	const recentPosts = posts.slice(0, RECENT_POSTS_COUNT);

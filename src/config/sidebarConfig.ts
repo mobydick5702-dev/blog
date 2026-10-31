@@ -102,7 +102,10 @@ export const sidebarLayoutConfig: SidebarLayoutConfig = {
 			// 组件类型：最新动态组件
 			type: "dynamic",
 			// 是否启用该组件
-			enable: true,
+			// [CUSTOM] 首版关闭：动态数量为 0（demo 动态已下线），这个卡片会先转圈再空着，
+			// 还会在底部露出一个「更多 → /dynamic/」的入口。等你有动态后（src/content/dynamic/ 写入，
+			// 或启用 dynamicConfig.memos）把这里改回 true，同时取消 navBarConfig.ts 里 LinkPresets.Dynamic 的注释。
+			enable: false,
 			// 组件位置
 			position: "top",
 			// 是否在文章详情页显示
@@ -280,7 +283,8 @@ export const sidebarLayoutConfig: SidebarLayoutConfig = {
 			// 组件类型：最新动态组件
 			type: "dynamic",
 			// 是否启用该组件
-			enable: true,
+			// [CUSTOM] 同上：窄屏抽屉里的最新动态卡片，首版关闭（动态数量为 0）。
+			enable: false,
 			// 是否在文章详情页显示
 			showOnPostPage: true,
 			// 组件专属配置

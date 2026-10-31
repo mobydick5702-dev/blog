@@ -23,6 +23,8 @@ export const booknavPageConfig: BooknavPageConfig = {
 
 // 书签导航配置
 // 每个数组项是一个分类组，分类组内的 items 是该分类下的书签
+// [CUSTOM] 书签内容沿用主题默认的通用开发者导航（GitHub / MDN / 框架文档 / 工具站），
+// 只把指向主题作者的示例书签换成了通用站点；不需要书签页可在 siteConfig.pages 里把 booknav 关掉。
 export const booknavConfig: BooknavGroup[] = [
 	{
 		id: "dev",
@@ -139,16 +141,17 @@ export const booknavConfig: BooknavGroup[] = [
 		weight: 70,
 		items: [
 			{
-				title: "Firefly Docs",
-				url: "https://docs-firefly.cuteleaf.cn",
-				desc: "Firefly 主题模板文档",
-				icon: "https://docs-firefly.cuteleaf.cn/logo.png",
+				// [CUSTOM] 原为 "Firefly Docs" 书签（指向主题文档站），已换成通用的前端框架文档。
+				title: "Astro 文档",
+				url: "https://docs.astro.build",
+				desc: "本站所用 Astro 框架的官方文档",
 				weight: 10,
 			},
 			{
-				title: "夏夜流萤",
-				url: "https://blog.cuteleaf.cn",
-				desc: "飞萤之火自无梦的长夜亮起",
+				// [CUSTOM] 原为 "夏夜流萤" 书签（指向主题作者的博客），已换成通用的兼容性查询站。
+				title: "Can I use",
+				url: "https://caniuse.com",
+				desc: "查询浏览器对前端特性的支持情况",
 				weight: 9,
 			},
 		],
