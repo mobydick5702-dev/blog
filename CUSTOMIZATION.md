@@ -268,6 +268,17 @@
 > 说明：任务把 llms 生成位置写成 `scripts/` 或 `config`，实际这里是 Astro 路由 `src/pages/llms.txt.ts`（`blog/scripts/` 里没有 llms 相关脚本），所以这 1 个文件严格说在书面作用域之外；改动仅 3 行、只影响 llms.txt 一个产物的内容。
 > 还原：`git -C blog checkout -- src/pages/llms.txt.ts`
 
+### 19. `README.md` / `README.en.md` — 重写为本站说明（交付阶段）
+
+| 位置 | 原值 | 新值 | 为什么改 |
+| --- | --- | --- | --- |
+| `README.md` | 上游 Firefly 主题的中文 README（主题宣传、功能清单、多语言 README 链接、贡献者与 Star History 图） | 本站项目说明：站点信息、本地开发、写文章规范、目录速览、GitHub → Cloudflare Pages 部署、三份文档索引、许可与致谢 | 仓库首页要说明「这个站是什么、怎么用」，而不是主题介绍页 |
+| `README.en.md` | 上游主题英文 README（330 行） | 对应的简短英文版（与中文版同结构） | 保持一致，不再保留主题宣传页 |
+| `docs/images/moby-blog-home.jpg` | 无 | 新增：站点首页截图（1200×1833，约 198 KB，由验收截图经 sharp 压缩生成） | README 配图 |
+
+> 说明：README 属文档，不计入 `[CUSTOM]` 标记数。上游主题的多语言文档 `docs/README.*.md` 未删除（在 `docs/` 内，不影响仓库首页）。
+> 还原：`git -C blog checkout -- README.md README.en.md`，再删除 `docs/images/moby-blog-home.jpg`
+
 ---
 
 ## 三、`[CUSTOM]` 标记索引
