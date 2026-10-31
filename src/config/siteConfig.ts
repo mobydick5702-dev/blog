@@ -51,9 +51,8 @@ const pages = resolvePageToggles({
 	// ── 关于 (About) ──────────────────────────────────
 
 	// 打赏页面开关
-	// [CUSTOM] 默认关闭：主题自带的打赏页里是示例收款码（不是本人的），开着会误导访客。
-	// 换成自己的收款方式后（见 src/config/sponsorConfig.ts），再把这里改回 true。
-	sponsor: false,
+	// [CUSTOM] 已换成自己的微信收款码（public/assets/images/sponsor/wechat.png）后开启。
+	sponsor: true,
 });
 
 // [CUSTOM] 站点基础信息：由 Firefly 主题的 demo 值改为「Moby's Blog」个人博客。
