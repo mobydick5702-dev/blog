@@ -3,7 +3,8 @@ updates:
   - package-ecosystem: "npm"
     directory: "/"
     schedule:
-      interval: "daily"
+      # [CUSTOM] 原为 daily，个人博客没必要每天开 PR；改周更（AUDIT P2-11）
+      interval: "weekly"
     groups:
       patch-updates:
         patterns:

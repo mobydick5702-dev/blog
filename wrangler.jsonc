@@ -1,5 +1,8 @@
 {
-	"name": "firefly",
+	// [CUSTOM] 本文件只在 Workers 部署模式（CF_WORKERS=1 + @astrojs/cloudflare adapter）下使用。
+	// 本站用 Cloudflare Pages 纯静态托管（构建命令 pnpm build、输出 dist/、不设 CF_WORKERS），
+	// Pages 不读取此文件。保留它是为了将来若切换到 Workers 时有据可依（AUDIT P2-15）。
+	"name": "moby-blog",
 	"compatibility_date": "2025-01-01",
 	"compatibility_flags": ["nodejs_compat"],
 	"assets": {

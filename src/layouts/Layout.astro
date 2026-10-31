@@ -132,7 +132,10 @@ const siteLogo = await getSiteLogo();
 // canonical：对 /archive/ 与 /search/ 剥离查询串，避免筛选视图自我 canonical 到 ?tag= 等
 const canonicalUrl = getCanonicalUrl(Astro.url);
 
-// OG 图片：文章走生成图/封面，非文章页回退到站点 logo
+// OG 图片：文章走生成图/封面，非文章页回退到站点级分享图（1200×630），最后才回退 logo
+// [CUSTOM] 原逻辑非文章页直接回退 192×192 的 logo，但 twitter:card 声明的是 summary_large_image，
+// 分享时会被平台按错误比例裁剪（AUDIT P1-6）。这里优先使用站点级大图。
+const SITE_OG_IMAGE = "/og/home.jpg";
 let ogImageUrl: string | undefined;
 let ogImageWidth: number | undefined;
 let ogImageHeight: number | undefined;
@@ -145,6 +148,10 @@ if (isGeneratedOg) {
 	ogImageUrl = postCoverImage; // 已由文章页算成绝对 URL
 	ogImageWidth = propsOgImageWidth;
 	ogImageHeight = propsOgImageHeight;
+} else if (SITE_OG_IMAGE) {
+	ogImageUrl = new URL(SITE_OG_IMAGE, Astro.site).toString();
+	ogImageWidth = 1200;
+	ogImageHeight = 630;
 } else if (siteLogo?.url) {
 	ogImageUrl = siteLogo.url;
 	ogImageWidth = siteLogo.width;

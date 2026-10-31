@@ -120,6 +120,15 @@ export const siteConfig: SiteConfig = {
 			// 可选，图标大小
 			// sizes: "32x32",
 		},
+		// [CUSTOM] 补 180/192：iOS「添加到主屏幕」与 PWA 图标需要更大尺寸（AUDIT P2-13）
+		{
+			src: "/favicon/firefly-180.png",
+			sizes: "180x180",
+		},
+		{
+			src: "/favicon/firefly-192.png",
+			sizes: "192x192",
+		},
 	],
 
 	// 导航栏配置

@@ -73,7 +73,8 @@ const labels = {
 
 <script is:inline>
 (function() {
-  var ITERATIONS = 100000;
+  // [CUSTOM] 必须与 src/utils/crypto-utils.ts 的 PBKDF2_ITERATIONS 保持一致（600000）
+  var ITERATIONS = 600000;
   var SALT_LEN = 16;
   var IV_LEN = 12;
   var TAG_LEN = 16;

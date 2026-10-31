@@ -295,6 +295,37 @@
 > 说明：`_headers` 不含 HSTS（改在 Cloudflare 面板 SSL/TLS → HSTS 开启，避免两套策略），也不含 CSP 强制版（首页有 33 段内联脚本，强制 CSP 会白屏）。
 > 还原：`git -C blog checkout -- src/pages/robots.txt.ts src/config/commentConfig.ts .github/workflows/deploy.yml .github/FUNDING.yml`，再删除 `public/_headers` 与 `.nvmrc`。
 
+### 21. AUDIT.md 第二批修复（产物精简 / 分享图 / 加密 / CI 卫生，2026-10-31）
+
+对应 `AUDIT.md` 的 P1-4 / P1-5 / P1-6 / P1-7 / P2-10 / P2-11 / P2-13 / P2-15。
+
+| 位置 | 原值 | 新值 | 为什么改 |
+| --- | --- | --- | --- |
+| `src/components/common/ImageWrapper.astro` | `import.meta.glob("../../**/*.{png,jpg,jpeg,webp,avif}")`（覆盖整个 `src/`） | 两条显式 glob：`../../assets/**` 与 `../../content/**` | 治本：任何丢进 `src/` 的图片都会被 Vite 打进产物，与是否被引用无关（P1-4） |
+| `src/assets/images/` 素材 | `d1–d6.avif`、`m1–m6.avif`、`avatar.avif`（约 1.02 MB） | 删除 | 配置已改用 `moby-*` 壁纸与 `avatar-moby.jpg`，这些是主题 demo 壁纸集与默认头像 |
+| `public/assets/music/` | 版权 mp3（915 KB）+ 封面图 | 删除整个目录 | 播放器已关闭；第三方版权曲目不应挂在站点上可直下 |
+| `public/assets/images/sponsor/` | `wechat.png` + `alipay.png`（129 KB） | 删除整个目录 | 打赏页已关闭，收款码是主题作者的 |
+| `public/assets/images/ad/` | `ad1.webp`（72 KB） | 删除整个目录 | 侧栏广告组件 `enable: false` |
+| `public/assets/images/effects/sakura.png` | 43 KB | 删除 | 樱花特效是 canvas 程序化绘制（且 `enable: false`），此图无引用 |
+| `public/assets/fonts/GreatVibes-Regular-2.otf` | 52 KB | 删除 | `fontConfig.selected` 只有 `"system"`，该字体从未加载 |
+| `public/assets/js/highlight.min.js`、`marked.min.js` | 119 + 39 KB | 删除 | 代码高亮由 expressive-code 负责，这两个库在 `src` 里零引用 |
+| `public/favicon/` | 12 个图标 | 保留 `firefly-32/180/192`，删除 light/dark 全套与 `firefly-128` | 只保留实际使用的尺寸 |
+| `src/content/posts/` 的 14 篇主题示例文章 | `draft: true`（仍参与构建期内容解析，其配图全部被打包） | 移动到 `docs/legacy-posts/`（文件保留，移出 content 集合） | 彻底清除约 1 MB demo 配图；需要时移回即可重新参与构建 |
+| `public/_redirects` | 不存在 | 新增：6 个已关闭栏目的真 404 规则 | 原产物是 200 + meta-refresh 的软 404（P1-5） |
+| `public/og/home.jpg` | 不存在 | 新增 1200×630 站点分享图（由首页截图经 sharp 裁切压缩，76 KB） | 非文章页分享卡片不再用 192×192 的 logo（P1-6） |
+| `src/layouts/Layout.astro` | 非文章页回退 `siteLogo`（192×192） | 新增 `SITE_OG_IMAGE = "/og/home.jpg"` 分支（1200×630） | P1-6 |
+| `src/utils/crypto-utils.ts` | 确定性 salt/IV（`HMAC(password, slug)`）+ PBKDF2 10 万次 | 随机 salt/IV（`randomBytes`）+ PBKDF2 60 万次 | AES-GCM nonce 复用是致命弱点（P1-7）。已用 node 脚本验证：两次密文不同、解密还原一致、错误密码失败 |
+| `src/components/features/EncryptedContent.astro` | `var ITERATIONS = 100000` | `600000` | 必须与加密端一致，否则解密失败 |
+| `src/config/siteConfig.ts` favicon | 只有 32×32 | 补 180×180 / 192×192 条目 | iOS 主屏 / PWA 清晰度（P2-13）；`apple-touch-icon` 仍由主题取第一个图标（32），属主题逻辑未改 |
+| `.github/workflows/build.yml` | Node 22/23 双矩阵（每次 push 4 个 job）+ 无 paths 过滤 | 单 Node 22 + paths 过滤（src / public / scripts / 依赖 / 构建配置） | 个人博客无需双版本矩阵（P2-10） |
+| `.github/dependabot.yml` | npm `daily` | `weekly` | 每天开 PR 没必要（P2-11） |
+| `vercel.json` | 存在（含安全头，但 CF Pages 不读） | 删除 | 安全头已由 `_headers` 承担（P2-15） |
+| `wrangler.jsonc` | 存在且无说明 | 保留并加注释：仅 Workers 模式使用，本站用 Pages | 避免再次误判（P2-15） |
+
+**效果**：`dist/` 从 12.7 MB / 289 文件 → **9.31 MB / 245 文件**；零引用二进制资源从 **3.49 MB / 46 个 → 0.25 MB / 3 个**（剩余为两张备选壁纸 `moby-desktop-alt1/alt2` 与一个 logo 优化变体，均属有意保留）。
+
+> 还原：素材与文章可用 `git -C blog checkout -- <路径>` 恢复；`docs/legacy-posts/` 里的文章移回 `src/content/posts/` 即可重新参与构建。
+
 ---
 
 ## 三、`[CUSTOM]` 标记索引

@@ -73,12 +73,23 @@ const isPublic = src.startsWith("/");
 // https://github.com/withastro/astro/issues/3373
 let img: ImageMetadata | null = null;
 if (isLocal) {
-	const files = import.meta.glob<ImageMetadata>(
-		"../../**/*.{png,jpg,jpeg,webp,avif}",
-		{
-			import: "default",
-		},
-	);
+	// [CUSTOM] 原 glob 是 "../../**/*.{png,jpg,jpeg,webp,avif}"（从 src/components/common 上溯两级 = 整个 src/），
+	// 结果是任何放进 src/ 的图片都会被打包进 dist，与有没有页面引用无关（AUDIT P1-4）。
+	// 收窄到两个真实来源：src/assets/**（主题素材）与 src/content/**（文章配图/项目图）。
+	const files = {
+		...import.meta.glob<ImageMetadata>(
+			"../../assets/**/*.{png,jpg,jpeg,webp,avif}",
+			{
+				import: "default",
+			},
+		),
+		...import.meta.glob<ImageMetadata>(
+			"../../content/**/*.{png,jpg,jpeg,webp,avif}",
+			{
+				import: "default",
+			},
+		),
+	};
 	let normalizedPath = path
 		.normalize(path.join("../../", basePath, src))
 		.replace(/\\/g, "/");
