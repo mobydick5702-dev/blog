@@ -8,7 +8,8 @@ export const commentConfig: CommentConfig = {
 
 	//twikoo评论系统配置
 	twikoo: {
-		envId: "https://twikoo.vercel.app",
+		// [CUSTOM] 原值是 twikoo 的公共 demo 实例，已清空；启用前必须填自己的 Twikoo 部署地址。
+		envId: "",
 		// 设置 Twikoo 评论系统语言
 		lang: "zh-CN",
 		// 是否启用文章访问量统计功能
@@ -25,7 +26,8 @@ export const commentConfig: CommentConfig = {
 	//waline评论系统配置
 	waline: {
 		// waline 后端服务地址
-		serverURL: "https://waline.vercel.app",
+		// [CUSTOM] 原值是 waline 的公共 demo 实例，已清空；启用前必须填自己的 Waline 服务地址。
+		serverURL: "",
 		// 设置 Waline 评论系统语言
 		lang: "zh-CN",
 		// 设置 Waline 评论系统表情地址
@@ -46,7 +48,8 @@ export const commentConfig: CommentConfig = {
 	// artalk评论系统配置
 	artalk: {
 		// artalk后端程序 API 地址
-		server: "https://artalk.example.com/",
+		// [CUSTOM] 原值是占位域名 artalk.example.com，已清空；启用前必须填自己的 Artalk 服务地址。
+		server: "",
 		// 设置 Artalk 语言
 		locale: "zh-CN",
 		// 是否启用文章访问量统计功能

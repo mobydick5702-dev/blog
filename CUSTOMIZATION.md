@@ -279,6 +279,22 @@
 > 说明：README 属文档，不计入 `[CUSTOM]` 标记数。上游主题的多语言文档 `docs/README.*.md` 未删除（在 `docs/` 内，不影响仓库首页）。
 > 还原：`git -C blog checkout -- README.md README.en.md`，再删除 `docs/images/moby-blog-home.jpg`
 
+### 20. AUDIT.md 第一批修复（安全与部署卫生，2026-10-31）
+
+对应 `AUDIT.md` 的 P0-1 / P0-2 / P0-3 / P1-8 / P1-9 / P2-12，共 6 项，全部是配置级改动，不碰组件逻辑。
+
+| 位置 | 原值 | 新值 | 为什么改 |
+| --- | --- | --- | --- |
+| `public/_headers` | 不存在 | 新增：安全响应头（nosniff / Referrer-Policy / Permissions-Policy / COOP）+ 缓存策略（`/_astro/*` immutable、`/assets/*`、`/og/*`、`/pagefind/*`） | Cloudflare Pages 只读 `_headers`，不读 `vercel.json`；此前线上零安全头、零长缓存 |
+| `.github/workflows/deploy.yml` | 存在（push master 触发 GitHub Pages 部署） | 删除 | 与 Cloudflare Pages 重复部署，且可能产生 github.io 双站副本 |
+| `src/pages/robots.txt.ts` | 含 `Disallow: /_astro/` | 删除该行（保留三条 `/archive/?*` 参数页屏蔽） | `/_astro/` 放的是全站 CSS/JS，屏蔽后搜索引擎拿不到样式，影响收录与页面体验评估 |
+| `.github/FUNDING.yml` | `ko_fi: cuteleaf` + 爱发电链接 | 删除文件 | 仓库 Sponsor 按钮指向主题作者，属品牌错位 |
+| `src/config/commentConfig.ts` | twikoo/waline/artalk 三个 demo 端点 | 清空为 `""`，并加 `[CUSTOM] 启用前必须填自己的地址` 注释 | 防止将来随手把 `type` 改成 waline 时，访客评论/邮箱/IP 被提交到陌生人维护的服务器 |
+| `.nvmrc` | 不存在 | 新增 `22.23.0` | 与 `package.json` 的 `engines` 对齐，固定 Node 版本 |
+
+> 说明：`_headers` 不含 HSTS（改在 Cloudflare 面板 SSL/TLS → HSTS 开启，避免两套策略），也不含 CSP 强制版（首页有 33 段内联脚本，强制 CSP 会白屏）。
+> 还原：`git -C blog checkout -- src/pages/robots.txt.ts src/config/commentConfig.ts .github/workflows/deploy.yml .github/FUNDING.yml`，再删除 `public/_headers` 与 `.nvmrc`。
+
 ---
 
 ## 三、`[CUSTOM]` 标记索引

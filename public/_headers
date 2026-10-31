@@ -1,0 +1,23 @@
+# [CUSTOM] Cloudflare Pages 安全响应头与缓存策略
+# 说明：Cloudflare Pages 只读 public/_headers 与 public/_redirects，不读仓库里的 vercel.json。
+# 构建时 Astro 会把 public/ 原样复制进 dist/，所以这个文件会出现在 dist/_headers。
+# HSTS 不写在这里 —— 请在 Cloudflare 面板 SSL/TLS → Edge Certificates 开启，避免两套策略并存。
+# CSP 暂不上强制版：首页有 33 段内联 <script>，静态构建拿不到 nonce/hash，强制 CSP 会白屏。
+
+/*
+  X-Content-Type-Options: nosniff
+  Referrer-Policy: strict-origin-when-cross-origin
+  Permissions-Policy: geolocation=(), microphone=(), camera=(), payment=()
+  Cross-Origin-Opener-Policy: same-origin
+
+/_astro/*
+  Cache-Control: public, max-age=31536000, immutable
+
+/assets/*
+  Cache-Control: public, max-age=604800
+
+/og/*
+  Cache-Control: public, max-age=86400
+
+/pagefind/*
+  Cache-Control: public, max-age=604800
