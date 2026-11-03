@@ -146,8 +146,8 @@ export const siteConfig: SiteConfig = {
 		// 想换成自己的 logo：把图片放进 src/assets/images/logo/，再改下面 value/valueDark。
 		logo: {
 			type: "image",
-			value: "assets/images/logo/firefly-light.png",
-			valueDark: "assets/images/logo/firefly-dark.png",
+			value: "assets/images/logo/rosemary-light.png",
+			valueDark: "assets/images/logo/rosemary-dark.png",
 			alt: "🍀",
 		},
 		// 导航栏标题
